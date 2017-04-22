@@ -1,11 +1,12 @@
 from vectortween.Animation import Animation
 from vectortween.NumberAnimation import NumberAnimation
 
+
 class PointAnimation(Animation):
     """
     animation of a 2d position (convenience class composing two number animations)
     """
-    def __init__(self, frm, to, tween=None,ytween=None):
+    def __init__(self, frm, to, tween=None, ytween=None):
         """
         :param frm: a list/tuple containing an (x, y) number (starting point; floats) 
         :param to: a list/tuple containing an (x, y) number (end point; floats)
@@ -16,7 +17,6 @@ class PointAnimation(Animation):
             ytween = tween
         self.anim_x = NumberAnimation(frm[0], to[0], tween)
         self.anim_y = NumberAnimation(frm[1], to[1], ytween)
-
 
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
@@ -29,4 +29,4 @@ class PointAnimation(Animation):
         """
         newx = self.anim_x.make_frame(frame, birthframe, startframe, stopframe, deathframe)
         newy = self.anim_y.make_frame(frame, birthframe, startframe, stopframe, deathframe)
-        return (newx, newy)
+        return newx, newy

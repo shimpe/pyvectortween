@@ -1,4 +1,6 @@
 from vectortween.Animation import Animation
+
+
 class PauseAnimation(Animation):
     """
     class that keeps returning the same values over and over again

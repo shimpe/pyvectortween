@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
+
 class Animation(object):
     __metaclass__ = ABCMeta
 

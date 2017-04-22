@@ -2,16 +2,18 @@ class Mapping(object):
     """
     class to map numbers from one range to another range
     """
+
     def _init__(self):
         pass
 
-    def linlin(self, value, a, b, c, d):
+    @staticmethod
+    def linlin(value, a, b, c, d):
         """
             maps value \in [a,b] linearly to the corresponding value \in [c, d]
             e.g. linlin(0.3,0,1,10,20) = 13
         """
-        if (a == b):
-            if (value == a and c==d):
+        if a == b:
+            if value == a and c == d:
                 return c
             return None
 

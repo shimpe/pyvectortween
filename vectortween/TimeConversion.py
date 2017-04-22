@@ -5,7 +5,8 @@ class TimeConversion(object):
     def __init__(self):
         pass
 
-    def sec2frame(self, sec, fps):
+    @staticmethod
+    def sec2frame(sec, fps):
         """
         :param sec: seconds (float) 
         :param fps: frame rate (float)
@@ -13,7 +14,8 @@ class TimeConversion(object):
         """
         return int(sec * fps)
 
-    def hms2frame(self, hms, fps):
+    @staticmethod
+    def hms2frame(hms, fps):
         """
         :param hms: a string, e.g. "01:23:15" for one hour, 23 minutes 15 seconds 
         :param fps: framerate 

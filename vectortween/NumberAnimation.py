@@ -2,6 +2,7 @@ from vectortween.Animation import Animation
 from vectortween.Tween import Tween
 from vectortween.Mapping import Mapping
 
+
 class NumberAnimation(Animation):
     """
     class to animate the value of a number between startframe and stopframe
@@ -32,13 +33,13 @@ class NumberAnimation(Animation):
             birthframe = startframe
         if deathframe is None:
             deathframe = stopframe
-        if (frame < birthframe):
+        if frame < birthframe:
             return None
-        if (frame > deathframe):
+        if frame > deathframe:
             return None
-        if (frame < startframe):
+        if frame < startframe:
             return self.frm
-        if (frame > stopframe):
+        if frame > stopframe:
             return self.to
 
         newval = self.M.linlin(self.T.tween2(frame, startframe, stopframe), 0, 1, self.frm, self.to)
