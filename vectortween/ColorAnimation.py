@@ -6,20 +6,15 @@ class ColorAnimation(object):
     
     colors are specified as tuples (r,g,b) where for each color component c 0<=c<=1
     """
-    def __init__(self, startframe, stopframe, frm, to, tween=None, tweengreen=None, tweenblue=None, tweenalpha=None, birthframe=None, deathframe=None):
+    def __init__(self, frm, to, tween=None, tweengreen=None, tweenblue=None, tweenalpha=None):
         """
-        
-        :param startframe: frame where animation starts 
-        :param stopframe: frame where animation is finished
         :param frm: start color, e.g. (1,0,0) for red (optionally also specify an alpha component)
         :param to: stop color, e.g. (0,1,0) for green (optionally also specify an alpha component)
         :param tween: tween method for red color component (defaults to linear if not specified)
         :param tweengreen: tween method for green color component (defaults to same as red if not specified)
         :param tweenblue: tween method for blue color component (defaults to same as red if not specified)
         :param tweenalpha: tween method for alpha color component (defaults to Linear if not specified)
-        :param birthframe: frame were animation starts to return something other than None (defaults to startframe if not specified)
-        :param deathframe: frame were animation stops returning something other than None (defaults to stopframe if not specified)
-        
+ 
         Note: output will contain alpha if input contains alpha. You can force adding/removing alpha by setting use_alpha=True/False in the 
         ColorAnimation instance.
         """
@@ -39,18 +34,13 @@ class ColorAnimation(object):
             self.use_alpha = False
             pass
 
-        if birthframe is None:
-            birthframe = startframe
-        if deathframe is None:
-            deathframe = stopframe
-
         if tweenalpha is None:
             tweenalpha = ['linear']
 
-        self.anim_red = NumberAnimation(startframe, stopframe, self.startred, self.stopred, tween, birthframe, deathframe)
-        self.anim_green = NumberAnimation(startframe, stopframe, self.startgreen, self.stopgreen, tweengreen, birthframe, deathframe)
-        self.anim_blue = NumberAnimation(startframe, stopframe, self.startblue, self.stopblue, tweenblue, birthframe, deathframe)
-        self.anim_alpha = NumberAnimation(startframe, stopframe, self.startalpha, self.stopalpha, tweenalpha, birthframe, deathframe)
+        self.anim_red = NumberAnimation(self.startred, self.stopred, tween)
+        self.anim_green = NumberAnimation(self.startgreen, self.stopgreen, tweengreen)
+        self.anim_blue = NumberAnimation(self.startblue, self.stopblue, tweenblue)
+        self.anim_alpha = NumberAnimation(self.startalpha, self.stopalpha, tweenalpha)
 
     def __clip(self, val, minimum, maximum):
         """
@@ -68,18 +58,21 @@ class ColorAnimation(object):
             return maximum
         return val
 
-    def make_frame(self, frame):
+    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
-        
-        :param frame: current frame
-        :return: tweened color
+        :param frame: current frame 
+        :param birthframe: frame where animation starts to return something other than None
+        :param startframe: frame where animation starts to evolve
+        :param stopframe: frame where animation stops evolving
+        :param deathframe: frame where animation starts to return None
+        :return: 
         """
         if self.use_alpha:
-            return (self.__clip(self.anim_red.make_frame(frame),0,1),
-                    self.__clip(self.anim_green.make_frame(frame),0,1),
-                    self.__clip(self.anim_blue.make_frame(frame),0,1))
+            return (self.__clip(self.anim_red.make_frame(frame, birthframe, startframe, stopframe, deathframe),0,1),
+                    self.__clip(self.anim_green.make_frame(frame, birthframe, startframe, stopframe, deathframe),0,1),
+                    self.__clip(self.anim_blue.make_frame(frame, birthframe, startframe, stopframe, deathframe),0,1))
         else:
-            return (self.__clip(self.anim_red.make_frame(frame), 0, 1),
-                    self.__clip(self.anim_green.make_frame(frame), 0, 1),
-                    self.__clip(self.anim_blue.make_frame(frame), 0, 1),
-                    self.__clip(self.anim_alpha.make_frame(frame), 0, 1))
+            return (self.__clip(self.anim_red.make_frame(frame, birthframe, startframe, stopframe, deathframe), 0, 1),
+                    self.__clip(self.anim_green.make_frame(frame, birthframe, startframe, stopframe, deathframe), 0, 1),
+                    self.__clip(self.anim_blue.make_frame(frame, birthframe, startframe, stopframe, deathframe), 0, 1),
+                    self.__clip(self.anim_alpha.make_frame(frame, birthframe, startframe, stopframe, deathframe), 0, 1))
