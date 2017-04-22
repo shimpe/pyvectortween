@@ -1,7 +1,8 @@
+from vectortween.Animation import Animation
 from vectortween.Tween import Tween
 from vectortween.Mapping import Mapping
 
-class NumberAnimation(object):
+class NumberAnimation(Animation):
     """
     class to animate the value of a number between startframe and stopframe
     tweening optionally can be applied (default is None, which means linear animation)

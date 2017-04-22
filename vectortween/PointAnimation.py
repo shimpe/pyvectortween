@@ -1,6 +1,7 @@
+from vectortween.Animation import Animation
 from vectortween.NumberAnimation import NumberAnimation
 
-class PointAnimation(object):
+class PointAnimation(Animation):
     """
     animation of a 2d position (convenience class composing two number animations)
     """

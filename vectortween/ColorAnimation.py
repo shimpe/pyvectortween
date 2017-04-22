@@ -1,6 +1,7 @@
+from vectortween.Animation import Animation
 from vectortween.NumberAnimation import NumberAnimation
 
-class ColorAnimation(object):
+class ColorAnimation(Animation):
     """
     class to animate a color
     
