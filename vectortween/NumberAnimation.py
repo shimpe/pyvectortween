@@ -16,7 +16,6 @@ class NumberAnimation(Animation):
             tween = ['linear']
 
         self.T = Tween(*tween)
-        self.M = Mapping()
 
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
@@ -42,7 +41,7 @@ class NumberAnimation(Animation):
         if frame > stopframe:
             return self.to
 
-        newval = self.M.linlin(self.T.tween2(frame, startframe, stopframe), 0, 1, self.frm, self.to)
+        newval = Mapping.linlin(self.T.tween2(frame, startframe, stopframe), 0, 1, self.frm, self.to)
 
         return newval
 
