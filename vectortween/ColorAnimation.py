@@ -32,7 +32,7 @@ class ColorAnimation(Animation):
             self.startalpha = frm[3]
             self.stopalpha = to[3]
             self.use_alpha = True
-        except KeyError:
+        except IndexError:
             self.use_alpha = False
             pass
 
