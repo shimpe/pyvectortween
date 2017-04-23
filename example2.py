@@ -46,8 +46,8 @@ if __name__ == "__main__":
         list_of_br = []
         for x in range(30):
             for y in range(30):
-                list_of_ul.append((x * 24, y * 24))
-                list_of_br.append((x * 24 + 15, y * 24 + 15))
+                list_of_ul.append((x * 28, y * 28))
+                list_of_br.append((x * 28 + 15, y * 28 + 15))
 
         # print(t) - t is expressed in seconds for videos; frames for .gifs !!!
         for i, (ul, br) in enumerate(zip(list_of_ul, list_of_br)):
