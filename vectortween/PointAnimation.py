@@ -13,10 +13,12 @@ class PointAnimation(Animation):
         :param tween: tween method for the x coordinate (defaults to linear if not specified)
         :param ytween: tween method for the y coordinate (defaults to same as that for x coordinate)
         """
+        super().__init__(frm, to)
         if ytween is None:
             ytween = tween
-        self.anim_x = NumberAnimation(frm[0], to[0], tween)
-        self.anim_y = NumberAnimation(frm[1], to[1], ytween)
+
+        self.anim_x = NumberAnimation(self.frm[0], self.to[0], tween)
+        self.anim_y = NumberAnimation(self.frm[1], self.to[1], ytween)
 
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """

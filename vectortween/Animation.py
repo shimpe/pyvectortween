@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class Animation(object):
+class AbstractAnimation(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
@@ -16,3 +16,11 @@ class Animation(object):
         :return: tweened value
         """
         pass
+
+
+class Animation(AbstractAnimation):
+    def __init__(self, frm, to):
+        self.frm = frm
+        self.to = to
+
+

@@ -9,9 +9,7 @@ class NumberAnimation(Animation):
     tweening optionally can be applied (default is None, which means linear animation)
     """
     def __init__(self, frm, to, tween=None):
-        self.frm = frm
-        self.to = to
-
+        super().__init__(frm, to)
         if tween is None:
             tween = ['linear']
 

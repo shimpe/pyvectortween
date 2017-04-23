@@ -17,20 +17,11 @@ class ColorAnimation(Animation):
         :param tweenblue: tween method for blue color component (defaults to same as red if not specified)
         :param tweenalpha: tween method for alpha color component (defaults to Linear if not specified)
  
-        Note: output will contain alpha if input contains alpha. You can force adding/removing alpha by setting 
-        use_alpha=True/False in the ColorAnimation instance.
+        Note: output will contain alpha if input contains alpha
         """
-        self.startred = frm[0]
-        self.stopred = to[0]
-        self.startgreen = frm[1]
-        self.stopgreen = to[1]
-        self.startblue = frm[2]
-        self.stopblue = to[2]
-        self.startalpha = 1
-        self.stopalpha = 1
+        super().__init__(frm, to)
         try:
-            self.startalpha = frm[3]
-            self.stopalpha = to[3]
+            dummy = frm[3]
             self.use_alpha = True
         except IndexError:
             self.use_alpha = False
@@ -39,10 +30,13 @@ class ColorAnimation(Animation):
         if tweenalpha is None:
             tweenalpha = ['linear']
 
-        self.anim_red = NumberAnimation(self.startred, self.stopred, tween)
-        self.anim_green = NumberAnimation(self.startgreen, self.stopgreen, tweengreen)
-        self.anim_blue = NumberAnimation(self.startblue, self.stopblue, tweenblue)
-        self.anim_alpha = NumberAnimation(self.startalpha, self.stopalpha, tweenalpha)
+        self.anim_red = NumberAnimation(self.frm[0], self.to[0], tween)
+        self.anim_green = NumberAnimation(self.frm[1], self.to[1], tweengreen)
+        self.anim_blue = NumberAnimation(self.frm[2], self.to[2], tweenblue)
+        if self.use_alpha:
+            self.anim_alpha = NumberAnimation(self.frm[3], self.to[3], tweenalpha)
+        else:
+            self.anim_alpha = NumberAnimation(1, 1, tweenalpha)
 
     @staticmethod
     def __clip(val, minimum, maximum):
