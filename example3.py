@@ -87,5 +87,10 @@ if __name__ == "__main__":
                       surface)
         return surface.get_npimage()
 
+    def make_frame_gif(t):
+        return make_frame(TimeConversion.sec2frame(t))
+
+
     clip = mpy.VideoClip(make_frame, duration=duration)
     clip.write_videofile("example3.mp4", fps=fps, codec='libx264')
+    clip.write_gif("example3.gif", fps=fps, opt='nq')
