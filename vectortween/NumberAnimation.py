@@ -26,6 +26,8 @@ class NumberAnimation(Animation):
     
         final value is held from stopfrome to deathframe 
         """
+        #print ("frame = {0}, birthframe = {1}, startframe = {2}, stopframe = {3}, deathframe = {4}".format(frame,birthframe,startframe,stopframe,deathframe))
+        
         if birthframe is None:
             birthframe = startframe
         if deathframe is None:
