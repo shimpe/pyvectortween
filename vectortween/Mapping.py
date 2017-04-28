@@ -10,7 +10,17 @@ class Mapping(object):
         pass
 
     @staticmethod
-    def linlin(value, in_min, in_max, out_min, out_max):
+    def clip(value, minimum, maximum):
+        if value < mininimum:
+            return minimum
+        elif value > maximum:
+            return maximum
+        else:
+            return value
+
+
+    @staticmethod
+    def linlin(value, in_min, in_max, out_min, out_max, clip=True):
         """
         maps value \in [in_min,in_max] linearly to the corresponding value \in [out_min, out_max]
         (extrapolating if needed)
@@ -30,11 +40,14 @@ class Mapping(object):
                 return out_min
             return None
 
-        return ((out_min + out_max) + (out_max - out_min) * (
+        output = ((out_min + out_max) + (out_max - out_min) * (
                 (2 * value - (in_min + in_max)) / float(in_max - in_min))) / 2.0
+        if clip:
+            output = clip(output, in_max, out_max)
+        return output
 
     @staticmethod
-    def linexp(value, in_min, in_max, out_min, out_max):
+    def linexp(value, in_min, in_max, out_min, out_max, clip=True):
         """
         maps value \in linear range [in_min,in_max] corresponding value \in exponential range [out_min, out_max]
         (extrapolating if needed)
@@ -51,10 +64,13 @@ class Mapping(object):
                 return out_min
             return None
 
-        return math.pow(out_max / out_min, (value - in_min) / (in_max - in_min)) * out_min
+        output = math.pow(out_max / out_min, (value - in_min) / (in_max - in_min)) * out_min
+        if clip:
+            output = clip(output, in_max, out_max)
+        return output
 
     @staticmethod
-    def explin(value, in_min, in_max, out_min, out_max):
+    def explin(value, in_min, in_max, out_min, out_max, clip=True):
         """
         maps value \in exponential range [in_min,in_max] corresponding value \in linear range [out_min, out_max]
         (extrapolating if possible)
@@ -74,10 +90,13 @@ class Mapping(object):
         if (in_max / in_min) < 0:
             return None
 
-        return math.log(value / in_min) / math.log(in_max / in_min) * (out_max - out_min) + out_min
+        output = math.log(value / in_min) / math.log(in_max / in_min) * (out_max - out_min) + out_min
+        if clip:
+            output = clip(output, in_max, out_max)
+        return output
 
     @staticmethod
-    def expexp(value, in_min, in_max, out_min, out_max):
+    def expexp(value, in_min, in_max, out_min, out_max, clip=True):
         """
         maps value \in exponential range [in_min,in_max] corresponding value \in exponential range [out_min, out_max]
         (extrapolating if possible)
@@ -99,4 +118,7 @@ class Mapping(object):
         if (in_max - in_min) < 0:
             return None
 
-        return math.pow(out_max / out_min, math.log(value / in_min) / math.log(in_max / in_min)) * out_min
+        output = math.pow(out_max / out_min, math.log(value / in_min) / math.log(in_max / in_min)) * out_min
+        if clip:
+            output = clip(output, in_max, out_max)
+        return output
