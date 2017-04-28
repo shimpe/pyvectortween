@@ -10,8 +10,8 @@ class Mapping(object):
         pass
 
     @staticmethod
-    def clip(value, minimum, maximum):
-        if value < mininimum:
+    def clipValue(value, minimum, maximum):
+        if value < minimum:
             return minimum
         elif value > maximum:
             return maximum
@@ -43,7 +43,7 @@ class Mapping(object):
         output = ((out_min + out_max) + (out_max - out_min) * (
                 (2 * value - (in_min + in_max)) / float(in_max - in_min))) / 2.0
         if clip:
-            output = clip(output, in_max, out_max)
+            output = Mapping.clipValue(output, out_min, out_max)
         return output
 
     @staticmethod
@@ -66,7 +66,7 @@ class Mapping(object):
 
         output = math.pow(out_max / out_min, (value - in_min) / (in_max - in_min)) * out_min
         if clip:
-            output = clip(output, in_max, out_max)
+            output = Mapping.clipValue(output, out_min, out_max)
         return output
 
     @staticmethod
@@ -92,7 +92,7 @@ class Mapping(object):
 
         output = math.log(value / in_min) / math.log(in_max / in_min) * (out_max - out_min) + out_min
         if clip:
-            output = clip(output, in_max, out_max)
+            output = Mapping.clipValue(output, out_min, out_max)
         return output
 
     @staticmethod
@@ -120,5 +120,5 @@ class Mapping(object):
 
         output = math.pow(out_max / out_min, math.log(value / in_min) / math.log(in_max / in_min)) * out_min
         if clip:
-            output = clip(output, in_max, out_max)
+            output = Mapping.clipValue(output, out_min, out_max)
         return output
