@@ -11,6 +11,8 @@ class Mapping(object):
 
     @staticmethod
     def clipValue(value, minimum, maximum):
+        if minimum > maximum:
+            minimum, maximum = maximum, minimum
         if value < minimum:
             return minimum
         elif value > maximum:
