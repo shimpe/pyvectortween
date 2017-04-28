@@ -10,7 +10,7 @@ class Mapping(object):
         pass
 
     @staticmethod
-    def clipValue(value, minimum, maximum):
+    def clip_value(value, minimum, maximum):
         if minimum > maximum:
             minimum, maximum = maximum, minimum
         if value < minimum:
@@ -19,7 +19,6 @@ class Mapping(object):
             return maximum
         else:
             return value
-
 
     @staticmethod
     def linlin(value, in_min, in_max, out_min, out_max, clip=True):
@@ -33,6 +32,7 @@ class Mapping(object):
         :param in_max: input range maximum
         :param out_min: what input range minimum is mapped to
         :param out_max: what input range maximum is mapped to
+        :param clip: if True, the output value is clipped to range [out_min, out_max] 
         :return: linear mapping from value in input range to value in output range (extrapolating if needed)
          
          example: linlin(0.2, 0, 1, 10, 20) = 13
@@ -43,9 +43,9 @@ class Mapping(object):
             return None
 
         output = ((out_min + out_max) + (out_max - out_min) * (
-                (2 * value - (in_min + in_max)) / float(in_max - in_min))) / 2.0
+            (2 * value - (in_min + in_max)) / float(in_max - in_min))) / 2.0
         if clip:
-            output = Mapping.clipValue(output, out_min, out_max)
+            output = Mapping.clip_value(output, out_min, out_max)
         return output
 
     @staticmethod
@@ -59,6 +59,7 @@ class Mapping(object):
         :param in_max: input range maximum
         :param out_min: what input range minimum is mapped to
         :param out_max: what input range maximum is mapped to
+        :param clip: if True, the output value is clipped to range [out_min, out_max]        
         :return: mapping from value in linear input range to value in exponential output range (extrapolating if needed)
         """
         if in_min == in_max:
@@ -68,7 +69,7 @@ class Mapping(object):
 
         output = math.pow(out_max / out_min, (value - in_min) / (in_max - in_min)) * out_min
         if clip:
-            output = Mapping.clipValue(output, out_min, out_max)
+            output = Mapping.clip_value(output, out_min, out_max)
         return output
 
     @staticmethod
@@ -82,6 +83,7 @@ class Mapping(object):
         :param in_max: input range maximum
         :param out_min: what input range minimum is mapped to
         :param out_max: what input range maximum is mapped to
+        :param clip: if True, the output value is clipped to range [out_min, out_max]        
         :return: mapping from value in  exponential input range to value in linear output range 
         (extrapolating if possible)
         """
@@ -94,7 +96,7 @@ class Mapping(object):
 
         output = math.log(value / in_min) / math.log(in_max / in_min) * (out_max - out_min) + out_min
         if clip:
-            output = Mapping.clipValue(output, out_min, out_max)
+            output = Mapping.clip_value(output, out_min, out_max)
         return output
 
     @staticmethod
@@ -108,6 +110,7 @@ class Mapping(object):
         :param in_max: input range maximum
         :param out_min: what input range minimum is mapped to
         :param out_max: what input range maximum is mapped to
+        :param clip: if True, the output value is clipped to range [out_min, out_max]           
         :return: mapping from value in  exponential input range to value in exponential output range 
         (extrapolating if possible)
         """
@@ -122,5 +125,5 @@ class Mapping(object):
 
         output = math.pow(out_max / out_min, math.log(value / in_min) / math.log(in_max / in_min)) * out_min
         if clip:
-            output = Mapping.clipValue(output, out_min, out_max)
+            output = Mapping.clip_value(output, out_min, out_max)
         return output

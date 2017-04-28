@@ -15,7 +15,7 @@ class AbstractAnimation(object):
         :param deathframe: frame in which animation starts returning None
         :return: tweened value
         """
-        pass
+        return None
 
 
 class Animation(AbstractAnimation):
@@ -23,4 +23,14 @@ class Animation(AbstractAnimation):
         self.frm = frm
         self.to = to
 
+    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
+        """
 
+        :param frame: current frame 
+        :param birthframe: frame before which animation always returns None
+        :param startframe: frame from which animation starts to evolve 
+        :param stopframe: frame in which animation completed
+        :param deathframe: frame in which animation starts returning None
+        :return: tweened value
+        """
+        return None
