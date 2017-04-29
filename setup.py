@@ -8,5 +8,6 @@ setup(
     license='MIT',
     author='stefaan himpe',
     author_email='stefaan.himpe@gmail.com',
-    description='some tweening for use with libraries like gizeh and moviepy', requires=['pytweening']
+    description='some tweening for use with libraries like gizeh and moviepy',
+    requires=['pytweening', 'sympy']
 )
