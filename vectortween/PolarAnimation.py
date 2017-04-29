@@ -26,6 +26,21 @@ class PolarAnimation(Animation):
         self.anim_x = ParametricAnimation(equation="{}".format(self.equation*sin(2*pi*t)), tween=tween)
         self.anim_y = ParametricAnimation(equation="{}".format(self.equation*cos(2*pi*t)), tween=ytween)
 
+    def delayed_version(self, delay):
+        t = Symbol("t")
+        new_equation = self.equation.subs(t, t-delay)
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+    def speedup_version(self, factor):
+        t = Symbol("t")
+        new_equation = self.equation.subs(t, t*factor)
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+    def translated_version(self, amount):
+        t = Symbol("t")
+        new_equation = self.equation + amount
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
         :param frame: current frame 

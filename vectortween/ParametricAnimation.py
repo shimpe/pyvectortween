@@ -14,12 +14,28 @@ class ParametricAnimation(Animation):
             tween = ['linear']
         if not equation:
             equation = "t"
+        self.tween = tween
         self.T = Tween(*tween)
         self.equation = parse_expr(equation)
         t = Symbol('t')
         frm = self.equation.evalf(subs={t:0})
         to = self.equation.evalf(subs={t:1})
         super().__init__(frm, to)
+
+    def delayed_version(self, delay):
+        t = Symbol("t")
+        new_equation = self.equation.subs(t, t-delay)
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+    def speedup_version(self, factor):
+        t = Symbol("t")
+        new_equation = self.equation.subs(t, t*factor)
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+    def translated_version(self, amount):
+        t = Symbol("t")
+        new_equation = self.equation + amount
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
 
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
