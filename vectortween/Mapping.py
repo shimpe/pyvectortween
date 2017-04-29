@@ -62,6 +62,8 @@ class Mapping(object):
         :param clip: if True, the output value is clipped to range [out_min, out_max]        
         :return: mapping from value in linear input range to value in exponential output range (extrapolating if needed)
         """
+        if out_min == 0:
+            return None
         if in_min == in_max:
             if value == in_min and out_min == out_max:
                 return out_min
@@ -89,9 +91,9 @@ class Mapping(object):
         """
         if in_min == 0:
             return None
-        if (value / in_min) < 0:
+        if (value / in_min) <= 0:
             return None
-        if (in_max / in_min) < 0:
+        if (in_max / in_min) <= 0:
             return None
 
         output = math.log(value / in_min) / math.log(in_max / in_min) * (out_max - out_min) + out_min
@@ -114,13 +116,15 @@ class Mapping(object):
         :return: mapping from value in  exponential input range to value in exponential output range 
         (extrapolating if possible)
         """
+        if out_min:
+            return None
         if value == 0:
             return None
-        if value / in_min < 0:
+        if value / in_min <= 0:
             return None
         if in_min == 0:
             return None
-        if (in_max - in_min) < 0:
+        if (in_max - in_min) <= 0:
             return None
 
         output = math.pow(out_max / out_min, math.log(value / in_min) / math.log(in_max / in_min)) * out_min
