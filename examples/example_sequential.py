@@ -30,8 +30,12 @@ if __name__ == "__main__":
 
         y1 = NumberAnimation(50, 200, tween=['easeInOutQuint'])
         y2 = NumberAnimation(200, 50, tween=['easeInOutQuad'])
-        ys = SequentialAnimation([y1,y2,y1,y2,y1,y2,y1,y2],[8,4,2,1,1,2,4,8])
-        y = partial(ys.make_frame, startframe=0, birthframe=0, stopframe=5, deathframe=5)
+        ys = SequentialAnimation([y1,y2],[2,1])
+        # nesting of sequential animations should work
+        ys2 = SequentialAnimation([ys,ys],[1,2])
+        # nesting of sequential animations and normal animations should work
+        ys3 = SequentialAnimation([ys2,y1,y2],[2,1,1])
+        y = partial(ys3.make_frame, startframe=0, birthframe=0, stopframe=5, deathframe=5)
 
         xy = [x(t), y(t)]
         if None not in xy:
