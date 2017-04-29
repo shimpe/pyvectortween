@@ -43,6 +43,5 @@ if __name__ == "__main__":
 
         return surface.get_npimage()
 
-
     clip = mpy.VideoClip(make_frame, duration=duration)
     clip.write_videofile("example_sequential.mp4", fps=fps, codec="libx264")
