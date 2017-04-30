@@ -27,7 +27,7 @@ if __name__ == "__main__":
             xys.append(p[i].make_frame(t, birthframe=0, startframe=0, stopframe=no_of_balls+2-i, deathframe=no_of_balls+2-i))
 
         for i, xyval in enumerate(xys):
-            if None not in xyval:
+            if xyval is not None and None not in xyval:
                 gizeh.circle(3+i, xy=[xyval[0] + 125, xyval[1] + 125], fill=colors[i]).draw(surface)
 
         return surface.get_npimage()

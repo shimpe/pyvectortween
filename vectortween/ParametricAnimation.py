@@ -37,6 +37,21 @@ class ParametricAnimation(Animation):
         new_equation = self.equation + amount
         return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
 
+    def scaled_version(self, amount):
+        t = Symbol("t")
+        new_equation = self.equation*amount
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+    def scaled_translate_version(self, scale, offset):
+        t = Symbol("t")
+        new_equation = self.equation * scale + offset
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+    def timereversed_version(self):
+        t = Symbol("t")
+        new_equation = self.equation.subs(t, 1-t)
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
         animation happens between startframe and stopframe

@@ -1,5 +1,6 @@
 from vectortween.Animation import Animation
 from vectortween.ParametricAnimation import ParametricAnimation
+from vectortween.ParallelAnimation import ParallelAnimation
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import Symbol, pi, sin, cos
 
@@ -20,26 +21,41 @@ class PolarAnimation(Animation):
         self.equation = parse_expr(equation)
         theta = Symbol("theta")
         t = Symbol("t")
-        self.equation = self.equation.subs(theta, 2*pi*t)
-        self.frm = (self.equation*sin(2*pi*t)).evalf(subs={t:0})
-        self.to = (self.equation*cos(2*pi*t)).evalf(subs={t:1})
-        self.anim_x = ParametricAnimation(equation="{}".format(self.equation*sin(2*pi*t)), tween=tween)
-        self.anim_y = ParametricAnimation(equation="{}".format(self.equation*cos(2*pi*t)), tween=ytween)
+        self.equation_timestretched = self.equation.subs(theta, 2*pi*t)
+        self.frm = (self.equation_timestretched*sin(2*pi*t)).evalf(subs={t:0})
+        self.to = (self.equation_timestretched*cos(2*pi*t)).evalf(subs={t:1})
+        self.anim = ParallelAnimation([ParametricAnimation(equation="{}".format(self.equation_timestretched*sin(2*pi*t)), tween=tween),
+                                       ParametricAnimation(equation="{}".format(self.equation_timestretched*cos(2*pi*t)), tween=ytween)])
 
     def delayed_version(self, delay):
         t = Symbol("t")
         new_equation = self.equation.subs(t, t-delay)
-        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+        return PolarAnimation(equation="{}".format(new_equation), tween=self.tween)
 
     def speedup_version(self, factor):
         t = Symbol("t")
         new_equation = self.equation.subs(t, t*factor)
-        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+        return PolarAnimation(equation="{}".format(new_equation), tween=self.tween)
 
     def translated_version(self, amount):
         t = Symbol("t")
         new_equation = self.equation + amount
-        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+        return PolarAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+    def scaled_version(self, amount):
+        t = Symbol("t")
+        new_equation = self.equation*amount
+        return PolarAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+    def scaled_translate_version(self, scale, offset):
+        t = Symbol("t")
+        new_equation = self.equation * scale + offset
+        return PolarAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+    def timereversed_version(self):
+        t = Symbol("t")
+        new_equation = self.equation.subs(t, 1-t)
+        return PolarAnimation(equation="{}".format(new_equation), tween=self.tween)
 
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
@@ -50,6 +66,4 @@ class PolarAnimation(Animation):
         :param deathframe: frame where animation starts to return None
         :return: 
         """
-        newx = self.anim_x.make_frame(frame, birthframe, startframe, stopframe, deathframe)
-        newy = self.anim_y.make_frame(frame, birthframe, startframe, stopframe, deathframe)
-        return newx, newy
+        return self.anim.make_frame(frame, birthframe, startframe, stopframe, deathframe)
