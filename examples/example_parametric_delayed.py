@@ -5,6 +5,7 @@ if __name__ == "__main__":
     import random
 
     from vectortween.ParametricAnimation import ParametricAnimation
+    from vectortween.ParallelAnimation import ParallelAnimation
 
 
     def random_color():
@@ -18,24 +19,25 @@ if __name__ == "__main__":
 
     # a heart
     no_of_balls = 30
-    xs = []
-    ys = []
+    anims = []
     for b in range(no_of_balls):
         trans = random.uniform(-10,10)
-        xs.append(ParametricAnimation(equation="250+ 7*16*(sin(2*pi*t)**3)", tween=["linear"]).delayed_version(
-            2 * b * math.pi / no_of_balls).speedup_version(b * math.pi/(no_of_balls/2)).translated_version(trans))
-        ys.append(ParametricAnimation(equation="125-7*(13*cos(2*pi*t)-5*cos(2*2*pi*t)-2*cos(3*2*pi*t)-cos(4*2*pi*t))",
-                                      tween=["linear"]).delayed_version(2 * b * math.pi / no_of_balls).speedup_version(
-            b * math.pi/(no_of_balls/2)).translated_version(trans))
+        anims.append(ParallelAnimation([
+            ParametricAnimation(equation="250+ 7*16*(sin(2*pi*t)**3)", tween=["linear"]).delayed_version(
+                2 * b * math.pi / no_of_balls).speedup_version(b * math.pi / (no_of_balls / 2)).translated_version(
+                trans),
+            ParametricAnimation(equation="125-7*(13*cos(2*pi*t)-5*cos(2*2*pi*t)-2*cos(3*2*pi*t)-cos(4*2*pi*t))",
+                                tween=["linear"]).delayed_version(2 * b * math.pi / no_of_balls).speedup_version(
+                b * math.pi / (no_of_balls / 2)).translated_version(trans)
+        ]))
 
     colors = [tuple(random_color()) for _ in range(no_of_balls)]
 
 
     def make_frame(t):
         surface = gizeh.Surface(W, H)
-        for i, (x, y) in enumerate(zip(xs, ys)):
-            xval = x.make_frame(t, 0, 0, duration, duration)
-            yval = y.make_frame(t, 0, 0, duration, duration)
+        for i, a in enumerate(anims):
+            xval, yval = a.make_frame(t, 0, 0, duration, duration)
             if xval is not None and yval is not None:
                 gizeh.circle(5, xy=[xval, yval], fill=colors[i]).draw(surface)
         return surface.get_npimage()
