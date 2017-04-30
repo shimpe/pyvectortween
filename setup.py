@@ -9,5 +9,5 @@ setup(
     author='stefaan himpe',
     author_email='stefaan.himpe@gmail.com',
     description='some tweening for use with libraries like gizeh and moviepy',
-    requires=['pytweening', 'sympy']
+    requires=['pytweening', 'sympy', 'numpy', 'scipy']
 )
