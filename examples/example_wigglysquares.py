@@ -67,4 +67,4 @@ if __name__ == "__main__":
 
 
     clip = mpy.VideoClip(make_frame, duration=duration)
-    clip.write_videofile("example2.mp4", fps=fps, codec='libx264')
+    clip.write_videofile("example_wigglysquares.mp4", fps=fps, codec='libx264')

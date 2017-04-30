@@ -70,4 +70,4 @@ if __name__ == "__main__":
 
 
     clip = mpy.VideoClip(make_frame, duration=duration)
-    clip.write_gif("example.gif", fps=fps, opt="OptimizePlus", fuzz=10)
+    clip.write_gif("example_pointandcoloranimation.gif", fps=fps, opt="OptimizePlus", fuzz=10)

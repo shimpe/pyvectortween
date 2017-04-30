@@ -16,8 +16,7 @@ if __name__ == "__main__":
 
 
     clip = mpy.VideoClip(make_frame, duration=duration)
-    clip.write_gif("example0-plain.gif", fps=fps, fuzz=10)
-
+    clip.write_gif("example_blogentry_plain.gif", fps=fps, fuzz=10)
 
     def make_frame_tween(t):
         surface = gizeh.Surface(W, H)
@@ -30,4 +29,4 @@ if __name__ == "__main__":
 
 
     clip = mpy.VideoClip(make_frame_tween, duration=duration)
-    clip.write_gif("example0-tween.gif", fps=fps, fuzz=10)
+    clip.write_gif("example_blogentry_tween.gif", fps=fps, fuzz=10)
