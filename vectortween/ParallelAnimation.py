@@ -1,6 +1,7 @@
 from vectortween.Animation import Animation
 from copy import deepcopy
 
+
 class ParallelAnimation(Animation):
     def __init__(self, list_of_animations=None):
         super().__init__(None, None)
@@ -24,8 +25,10 @@ class ParallelAnimation(Animation):
         if frame > deathframe:
             return None
         if frame < startframe:
-            return [ a.make_frame(startframe, birthframe, startframe, stopframe, deathframe) for a in self.ListOfAnimations ]
+            return [a.make_frame(startframe, birthframe, startframe, stopframe, deathframe) for a in
+                    self.ListOfAnimations]
         if frame > stopframe:
-            return [ a.make_frame(stopframe, birthframe, startframe, stopframe, deathframe) for a in self.ListOfAnimations ]
+            return [a.make_frame(stopframe, birthframe, startframe, stopframe, deathframe) for a in
+                    self.ListOfAnimations]
 
-        return [ a.make_frame(frame, birthframe, startframe, stopframe, deathframe) for a in self.ListOfAnimations ]
+        return [a.make_frame(frame, birthframe, startframe, stopframe, deathframe) for a in self.ListOfAnimations]

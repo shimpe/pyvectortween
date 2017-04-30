@@ -7,8 +7,10 @@ if __name__ == "__main__":
     from vectortween.ParametricAnimation import ParametricAnimation
     from vectortween.ParallelAnimation import ParallelAnimation
 
+
     def random_color():
         return (random.uniform(0, 1) for _ in range(3))
+
 
     H = 250
     W = 500
@@ -26,20 +28,22 @@ if __name__ == "__main__":
         if b % 2 == 0:
             anims.append(ParallelAnimation([
                 ParametricAnimation(equation=x_eq, tween=["linear"]).delayed_version(
-                    2 * b * math.pi / no_of_balls).speedup_version((b/3) * math.pi / (no_of_balls / 2)).translated_version(
+                    2 * b * math.pi / no_of_balls).speedup_version(
+                    (b / 3) * math.pi / (no_of_balls / 2)).translated_version(
                     transx),
                 ParametricAnimation(equation=y_eq,
                                     tween=["linear"]).delayed_version(2 * b * math.pi / no_of_balls).speedup_version(
-                    (b/3) * math.pi / (no_of_balls / 2)).translated_version(transy)
+                    (b / 3) * math.pi / (no_of_balls / 2)).translated_version(transy)
             ]))
         else:
             anims.append(ParallelAnimation([
                 ParametricAnimation(equation=x_eq, tween=["linear"]).delayed_version(
-                    2 * b * math.pi / no_of_balls).speedup_version((b/3) * math.pi / (no_of_balls / 2)).translated_version(
+                    2 * b * math.pi / no_of_balls).speedup_version(
+                    (b / 3) * math.pi / (no_of_balls / 2)).translated_version(
                     transx).timereversed_version(),
                 ParametricAnimation(equation=y_eq,
                                     tween=["linear"]).delayed_version(2 * b * math.pi / no_of_balls).speedup_version(
-                    (b /3)* math.pi / (no_of_balls / 2)).translated_version(transy).timereversed_version()
+                    (b / 3) * math.pi / (no_of_balls / 2)).translated_version(transy).timereversed_version()
             ]))
 
     colors = [tuple(random_color()) for _ in range(no_of_balls)]

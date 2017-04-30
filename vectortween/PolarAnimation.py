@@ -11,16 +11,22 @@ class PolarAnimation(Animation):
     animation of a 2d position (convenience class converting polar equation to two parametric equations)
     """
 
-    def __init__(self, equation="100*sin(5*theta)", offset=[0, 0], scale=[1, 1], tween=None, ytween=None):
+    def __init__(self, equation="100*sin(5*theta)", offset=None, scale=None, tween=None, ytween=None):
         """
         :param equation: polar equation in the form r = f(theta)
         :param tween: tween method for the x coordinate (defaults to linear if not specified)
         :param ytween: tween method for the y coordinate (defaults to same as that for x coordinate)
         """
         super().__init__(None, None)
+        if scale is None:
+            scale = [1, 1]
+        if offset is None:
+            offset = [0, 0]
         if ytween is None:
             ytween = tween
 
+        self.tween = tween
+        self.ytween = ytween
         self.equation = parse_expr(equation)
         self.offset = offset
         self.scale = scale
@@ -40,41 +46,38 @@ class PolarAnimation(Animation):
         t = Symbol("t")
         new_equation = self.equation.subs(t, t - delay)
         return PolarAnimation(equation="{}".format(new_equation),
-                              offset=self.offset, scale=self.scale, tween=self.tween)
+                              offset=self.offset, scale=self.scale, tween=self.tween, ytween=self.ytween)
 
     def speedup_version(self, factor):
         t = Symbol("t")
         new_equation = self.equation.subs(t, t * factor)
         return PolarAnimation(equation="{}".format(new_equation),
-                              offset=self.offset, scale=self.scale, tween=self.tween)
+                              offset=self.offset, scale=self.scale, tween=self.tween, ytween=self.ytween)
 
     def translated_version(self, offset):
-        t = Symbol("t")
         new_equation = self.equation
         new_offset = [self.offset[0] + offset[0], self.offset[1]+offset[1]]
         return PolarAnimation(equation="{}".format(new_equation),
-                              offset=new_offset, scale=self.scale, tween=self.tween)
+                              offset=new_offset, scale=self.scale, tween=self.tween, ytween=self.ytween)
 
     def scaled_version(self, scale):
-        t = Symbol("t")
         new_equation = self.equation
         new_scale = [self.scale[0]*scale[0], self.scale[1]*scale[1]]
         return PolarAnimation(equation="{}".format(new_equation),
-                              offset=self.offset, scale=new_scale, tween=self.tween)
+                              offset=self.offset, scale=new_scale, tween=self.tween, ytween=self.ytween)
 
     def scaled_translate_version(self, scale, offset):
-        t = Symbol("t")
         new_equation = self.equation
         new_offset = [self.offset[0] + offset[0], self.offset[1] + offset[1]]
         new_scale = [self.scale[0] * scale[0], self.scale[1] * scale[1]]
         return PolarAnimation(equation="{}".format(new_equation),
-                              offset=new_offset, scale=new_scale, tween=self.tween)
+                              offset=new_offset, scale=new_scale, tween=self.tween, ytween=self.ytween)
 
     def timereversed_version(self):
         t = Symbol("t")
         new_equation = self.equation.subs(t, 1 - t)
         return PolarAnimation(equation="{}".format(new_equation),
-                              offset=self.offset, scale=self.scale, tween=self.tween)
+                              offset=self.offset, scale=self.scale, tween=self.tween, ytween=self.ytween)
 
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """

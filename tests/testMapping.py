@@ -1,5 +1,6 @@
 from vectortween.Mapping import Mapping
 
+
 def test_linlin():
     clip = True
     noclip = False
@@ -34,6 +35,7 @@ def test_linlin():
 
     for test in table:
         assert Mapping.linlin(*test[0]) == test[1]
+
 
 def test_linexp():
     clip = True

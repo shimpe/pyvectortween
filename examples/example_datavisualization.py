@@ -75,21 +75,21 @@ if __name__ == "__main__":
         # draw axes from second 1 to second 3 (keep alive until second 15)
         draw_line((mx(0), my(-10)), (mx(0), my(axe_anim.make_frame(t, 1, 1, 3, 15))), axe_width, axe_color, surface)
         draw_line((mx(-10), my(0)), (mx(axe_anim.make_frame(t, 1, 1, 3, 15)), my(0)), axe_width, axe_color, surface)
-        for i in range(20):
-            subdiv_anim = NumberAnimation(0, i * 35, tween=(["easeOutBounce"]))
+        for j in range(20):
+            subdiv_anim = NumberAnimation(0, j * 35, tween=(["easeOutBounce"]))
             x = subdiv_anim.make_frame(t, 1.5, 1.5, 6, 15)
             draw_line((mx(x), my(-10)), (mx(x), my(10)), 1, axe_color, surface)
             draw_line((mx(-10), my(x)), (mx(10), my(x)), 1, axe_color, surface)
-            if (i + 1) % 5 == 0:
+            if (j + 1) % 5 == 0:
                 txt_x = subdiv_anim.make_frame(t, 2.5, 2.5, 6, 15)
-                draw_text("{0}".format(i + 1), (mx(txt_x), my(-20)), (1, 1, 1), surface)
-                draw_text("{0}".format(i + 1), (mx(-20), my(txt_x)), (1, 1, 1), surface)
-        for i in range(10):
-            y = rect_anim[i].make_frame(t, 5, 5, 9, 15)
-            draw_rect((mx(i * 70), my(y)),
-                      (mx((i + 0.9) * 70), my(0)),
+                draw_text("{0}".format(j + 1), (mx(txt_x), my(-20)), (1, 1, 1), surface)
+                draw_text("{0}".format(j + 1), (mx(-20), my(txt_x)), (1, 1, 1), surface)
+        for j in range(10):
+            y = rect_anim[j].make_frame(t, 5, 5, 9, 15)
+            draw_rect((mx(j * 70), my(y)),
+                      (mx((j + 0.9) * 70), my(0)),
                       2, (0, 0, 1),
-                      rect_colors[i],
+                      rect_colors[j],
                       surface)
         return surface.get_npimage()
 
