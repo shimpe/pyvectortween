@@ -3,6 +3,8 @@ if __name__ == "__main__":
     import moviepy.editor as mpy
 
     from vectortween.BezierCurveAnimation import BezierCurveAnimation
+    from vectortween.Utils import filter_none
+
 
     def random_color():
         import random
@@ -13,16 +15,25 @@ if __name__ == "__main__":
     duration = 5  # duration of the clip, in seconds
     fps = 25
 
-    controlpoints = [ (120,160), (35,200), (220,260), (220,40) ]
+    controlpoints = [(120, 160), (35, 200), (220, 240), (220, 40)]
     b = BezierCurveAnimation(controlpoints=controlpoints)
+
 
     def make_frame(t):
         surface = gizeh.Surface(W, H)
-        xy = b.make_frame(t, 0,0,duration,duration)
+        xy = b.make_frame(t, 0, 0, duration-1, duration)
+        curve_points = b.curve_points(0, t, 0.01, 0, 0, duration-1, duration)
+        #print (curve_points)
         if xy is not None and None not in xy:
-            #print ("xy = ", xy)
-            gizeh.circle(5, xy=xy, fill=(0,1,0)).draw(surface)
+            gizeh.circle(5, xy=xy, fill=(0, 1, 0)).draw(surface)
+        l = list(filter_none(curve_points))
+        gizeh.polyline(l, stroke=(0, 0, 1), stroke_width=2).draw(surface)
+        gizeh.polyline(controlpoints, stroke=(1, 0, 0), stroke_width=2).draw(surface)
+        for cp in controlpoints:
+            gizeh.circle(5, xy=cp, fill=(0,1,1)).draw(surface)
+
         return surface.get_npimage()
+
 
     clip = mpy.VideoClip(make_frame, duration=duration)
     clip.write_videofile("example_bezier.mp4", fps=fps, codec="libx264")
