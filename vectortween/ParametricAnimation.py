@@ -1,8 +1,11 @@
+from functools import lru_cache
+
+from sympy import Symbol
+from sympy.parsing.sympy_parser import parse_expr
+
 from vectortween.Animation import Animation
 from vectortween.Tween import Tween
-from sympy.parsing.sympy_parser import parse_expr
-from sympy import Symbol
-from functools import lru_cache
+
 
 class ParametricAnimation(Animation):
     """

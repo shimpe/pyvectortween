@@ -1,10 +1,11 @@
+from functools import lru_cache
+
 from scipy.special import binom
 
 from vectortween.Animation import Animation
 from vectortween.ParallelAnimation import ParallelAnimation
 from vectortween.ParametricAnimation import ParametricAnimation
 
-from functools import lru_cache
 
 class BezierCurveAnimation(Animation):
     """
@@ -30,14 +31,14 @@ class BezierCurveAnimation(Animation):
 
         self.controlpoints = controlpoints
 
-        order = len(controlpoints)-1
+        order = len(controlpoints) - 1
         x_terms = []
         y_terms = []
         for i, c in enumerate(controlpoints):
             x_terms.append("{0}*((1-t)**({1}-{2}))*(t**{2})*{3}".format(binom(order, i), order, i, c[0]))
             y_terms.append("{0}*((1-t)**({1}-{2}))*(t**{2})*{3}".format(binom(order, i), order, i, c[1]))
-        #print ("+".join(x_terms))
-        #print ("+".join(y_terms))
+        # print ("+".join(x_terms))
+        # print ("+".join(y_terms))
         self.anim = ParallelAnimation([ParametricAnimation(equation="{}".format("+".join(x_terms)), tween=tween),
                                        ParametricAnimation(equation="{}".format("+".join(y_terms)), tween=ytween)])
         self.frm = self.anim.make_frame(0, 0, 0, 1, 1)

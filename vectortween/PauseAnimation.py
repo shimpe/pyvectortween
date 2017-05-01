@@ -5,6 +5,7 @@ class PauseAnimation(Animation):
     """
     class that keeps returning the same values over and over again
     """
+
     def __init__(self, frm):
         super().__init__(frm, frm)
 

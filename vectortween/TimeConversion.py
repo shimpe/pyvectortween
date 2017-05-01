@@ -2,6 +2,7 @@ class TimeConversion(object):
     """
     class offering some convenience methods for conversion of time to frame number
     """
+
     def __init__(self):
         pass
 
@@ -23,4 +24,4 @@ class TimeConversion(object):
         """
         import time
         t = time.strptime(hms, "%H:%M:%S")
-        return (t.tm_hour*60*60 + t.tm_min*60 + t.tm_sec)*fps
+        return (t.tm_hour * 60 * 60 + t.tm_min * 60 + t.tm_sec) * fps

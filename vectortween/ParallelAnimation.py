@@ -1,5 +1,6 @@
-from vectortween.Animation import Animation
 from copy import deepcopy
+
+from vectortween.Animation import Animation
 
 
 class ParallelAnimation(Animation):

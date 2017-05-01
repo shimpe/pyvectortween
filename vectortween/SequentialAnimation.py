@@ -1,8 +1,10 @@
-from vectortween.Animation import Animation
-from vectortween.Tween import Tween
-from vectortween.Mapping import Mapping
 from copy import deepcopy
+
 import numpy as np
+
+from vectortween.Animation import Animation
+from vectortween.Mapping import Mapping
+from vectortween.Tween import Tween
 
 
 def normalize(x):

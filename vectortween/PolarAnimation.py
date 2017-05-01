@@ -1,10 +1,12 @@
+from functools import lru_cache
+
 from sympy import Symbol, pi, sin, cos
 from sympy.parsing.sympy_parser import parse_expr
 
 from vectortween.Animation import Animation
 from vectortween.ParallelAnimation import ParallelAnimation
 from vectortween.ParametricAnimation import ParametricAnimation
-from functools import lru_cache
+
 
 class PolarAnimation(Animation):
     """
@@ -36,11 +38,11 @@ class PolarAnimation(Animation):
         self.frm = (scale[0] * self.equation_timestretched * sin(2 * pi * t) + offset[0]).evalf(subs={t: 0})
         self.to = (scale[1] * self.equation_timestretched * cos(2 * pi * t) + offset[1]).evalf(subs={t: 1})
         self.anim = ParallelAnimation([ParametricAnimation(equation="{}".format(
-                                        scale[0] * self.equation_timestretched * sin(2 * pi * t) + offset[0]),
-                                        tween=tween),
-                                       ParametricAnimation(equation="{}".format(
-                                        scale[1] * self.equation_timestretched * cos(2 * pi * t) + offset[1]),
-                                        tween=ytween)])
+            scale[0] * self.equation_timestretched * sin(2 * pi * t) + offset[0]),
+            tween=tween),
+            ParametricAnimation(equation="{}".format(
+                scale[1] * self.equation_timestretched * cos(2 * pi * t) + offset[1]),
+                tween=ytween)])
 
     def delayed_version(self, delay):
         t = Symbol("t")
@@ -56,13 +58,13 @@ class PolarAnimation(Animation):
 
     def translated_version(self, offset):
         new_equation = self.equation
-        new_offset = [self.offset[0] + offset[0], self.offset[1]+offset[1]]
+        new_offset = [self.offset[0] + offset[0], self.offset[1] + offset[1]]
         return PolarAnimation(equation="{}".format(new_equation),
                               offset=new_offset, scale=self.scale, tween=self.tween, ytween=self.ytween)
 
     def scaled_version(self, scale):
         new_equation = self.equation
-        new_scale = [self.scale[0]*scale[0], self.scale[1]*scale[1]]
+        new_scale = [self.scale[0] * scale[0], self.scale[1] * scale[1]]
         return PolarAnimation(equation="{}".format(new_equation),
                               offset=self.offset, scale=new_scale, tween=self.tween, ytween=self.ytween)
 

@@ -7,6 +7,7 @@ class Tween(object):
     """
         wrapper around pytweening
     """
+
     def __init__(self, method, param1=0, param2=0):
         """
         :param method: one of the methods supported by pytweening
@@ -89,4 +90,3 @@ class Tween(object):
         linearly maps val between frm and to to a number between 0 and 1 
         """
         return self.tween(Mapping.linlin(val, frm, to, 0, 1))
-

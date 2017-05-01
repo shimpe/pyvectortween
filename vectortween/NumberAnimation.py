@@ -1,13 +1,16 @@
-from vectortween.Animation import Animation
-from vectortween.Tween import Tween
-from vectortween.Mapping import Mapping
 from functools import lru_cache
+
+from vectortween.Animation import Animation
+from vectortween.Mapping import Mapping
+from vectortween.Tween import Tween
+
 
 class NumberAnimation(Animation):
     """
     class to animate the value of a number between startframe and stopframe
     tweening optionally can be applied (default is None, which means linear animation)
     """
+
     def __init__(self, frm, to, tween=None):
         super().__init__(frm, to)
         if tween is None:
@@ -44,4 +47,3 @@ class NumberAnimation(Animation):
         newval = Mapping.linlin(self.T.tween2(frame, startframe, stopframe), 0, 1, self.frm, self.to)
 
         return newval
-

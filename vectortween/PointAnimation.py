@@ -1,11 +1,14 @@
+from functools import lru_cache
+
 from vectortween.Animation import Animation
 from vectortween.NumberAnimation import NumberAnimation
-from functools import lru_cache
+
 
 class PointAnimation(Animation):
     """
     animation of a 2d position (convenience class composing two number animations)
     """
+
     def __init__(self, frm, to, tween=None, ytween=None):
         """
         :param frm: a list/tuple containing an (x, y) number (starting point; floats) 

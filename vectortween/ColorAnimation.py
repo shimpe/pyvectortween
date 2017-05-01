@@ -1,6 +1,8 @@
+from functools import lru_cache
+
 from vectortween.Animation import Animation
 from vectortween.NumberAnimation import NumberAnimation
-from functools import lru_cache
+
 
 class ColorAnimation(Animation):
     """
@@ -8,6 +10,7 @@ class ColorAnimation(Animation):
     
     colors are specified as tuples (r,g,b) where for each color component c 0<=c<=1
     """
+
     def __init__(self, frm, to, tween=None, tweengreen=None, tweenblue=None, tweenalpha=None):
         """
         :param frm: start color, e.g. (1,0,0) for red (optionally also specify an alpha component)
