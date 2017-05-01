@@ -1,6 +1,6 @@
 from vectortween.Animation import Animation
 from vectortween.NumberAnimation import NumberAnimation
-
+from functools import lru_cache
 
 class ColorAnimation(Animation):
     """
@@ -55,6 +55,7 @@ class ColorAnimation(Animation):
             return maximum
         return val
 
+    @lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
         :param frame: current frame 

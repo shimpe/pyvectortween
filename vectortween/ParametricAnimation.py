@@ -2,7 +2,7 @@ from vectortween.Animation import Animation
 from vectortween.Tween import Tween
 from sympy.parsing.sympy_parser import parse_expr
 from sympy import Symbol
-
+from functools import lru_cache
 
 class ParametricAnimation(Animation):
     """
@@ -50,6 +50,7 @@ class ParametricAnimation(Animation):
         new_equation = self.equation.subs(t, 1 - t)
         return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
 
+    @lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
         animation happens between startframe and stopframe

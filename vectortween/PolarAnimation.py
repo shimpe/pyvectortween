@@ -4,7 +4,7 @@ from sympy.parsing.sympy_parser import parse_expr
 from vectortween.Animation import Animation
 from vectortween.ParallelAnimation import ParallelAnimation
 from vectortween.ParametricAnimation import ParametricAnimation
-
+from functools import lru_cache
 
 class PolarAnimation(Animation):
     """
@@ -79,6 +79,7 @@ class PolarAnimation(Animation):
         return PolarAnimation(equation="{}".format(new_equation),
                               offset=self.offset, scale=self.scale, tween=self.tween, ytween=self.ytween)
 
+    @lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
         :param frame: current frame 

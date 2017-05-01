@@ -1,6 +1,6 @@
 from vectortween.Animation import Animation
 from vectortween.NumberAnimation import NumberAnimation
-
+from functools import lru_cache
 
 class PointAnimation(Animation):
     """
@@ -20,6 +20,7 @@ class PointAnimation(Animation):
         self.anim_x = NumberAnimation(self.frm[0], self.to[0], tween)
         self.anim_y = NumberAnimation(self.frm[1], self.to[1], ytween)
 
+    @lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
         """
         :param frame: current frame 

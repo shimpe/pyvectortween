@@ -2,15 +2,7 @@ from vectortween.Animation import Animation
 from vectortween.Tween import Tween
 from vectortween.Mapping import Mapping
 from copy import deepcopy
-from itertools import tee
 import numpy as np
-
-
-def pairwise(iterable):
-    """s -> (s0,s1), (s1,s2), (s2, s3), ..."""
-    a, b = tee(iterable)
-    next(b, None)
-    return zip(a, b)
 
 
 def normalize(x):
