@@ -56,7 +56,7 @@ first concern. The library is not intended for real-time usage.
 My current interest lies in offline generation/rendering of graphics.
 The library will happily sacrifice speed for accuracy when faced with 
 the choice. As a result it can be arbitrarily slow 
-(especially with heavy parameteric equations).
+(especially with heavy parametric equations).
 
 ## Examples
 
