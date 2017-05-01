@@ -1,5 +1,4 @@
 from itertools import tee
-from itertools import filterfalse
 
 def pairwise(iterable):
     """s -> (s0,s1), (s1,s2), (s2, s3), ..."""
@@ -7,10 +6,21 @@ def pairwise(iterable):
     next(b, None)
     return zip(a, b)
 
+def containsNone(p):
+    try:
+        if None in p:
+            return True
+    except:
+        return False
+    return False
+
 def filter_none(list_of_points):
     """
     
     :param list_of_points: 
-    :return: 
+    :return: list_of_points with None's removed
     """
-    return filterfalse(lambda p: p is None or None in p,list_of_points)
+    remove_elementnone = filter(lambda p: p is not None, list_of_points)
+    remove_sublistnone = filter(lambda p: not containsNone(p), remove_elementnone)
+    return list(remove_sublistnone)
+

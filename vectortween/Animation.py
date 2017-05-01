@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from vectortween.Utils import filter_none
 
 class AbstractAnimation(object):
     __metaclass__ = ABCMeta
@@ -49,7 +50,7 @@ class Animation(AbstractAnimation):
         """
         return None
 
-    def curve_points(self, beginframe, endframe, framestep, birthframe, startframe, stopframe, deathframe):
+    def curve_points(self, beginframe, endframe, framestep, birthframe, startframe, stopframe, deathframe, filternone=True):
         """
         returns a list of frames from startframe to stopframe, in steps of framestepj
         warning: the list of points may include "None" elements 
@@ -75,4 +76,7 @@ class Animation(AbstractAnimation):
             i += framestep
             if i <= endframe:
                 result.append(self.make_frame(i, birthframe, startframe, stopframe, deathframe))
-        return result
+        if filternone:
+            return filter_none(result)
+        else:
+            return result
