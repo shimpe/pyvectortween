@@ -12,7 +12,7 @@ def normalize(x):
 
 
 class SequentialAnimation(Animation):
-    def __init__(self, list_of_animations=None, timeweight=None, tween=None):
+    def __init__(self, list_of_animations=None, timeweight=None, repeats=None, tween=None):
         super().__init__(None, None)
         if tween is None:
             tween = ['linear']
@@ -20,17 +20,20 @@ class SequentialAnimation(Animation):
             timeweight = []
         if list_of_animations is None:
             list_of_animations = []
+        if repeats is None:
+            repeats = 1
         self.ListOfAnimations = []
         self.ListOfAnimationTimeWeight = np.array([])
         self.CumulativeNormalizedTimeWeights = np.array([])
         self.T = Tween(*tween)
         if list_of_animations:
-            if not timeweight:
-                for a in list_of_animations:
-                    self.add(a, 1)
-            else:
-                for a, t in zip(list_of_animations, timeweight):
-                    self.add(a, t)
+            for r in range(repeats):
+                if not timeweight:
+                    for a in list_of_animations:
+                        self.add(a, 1)
+                else:
+                    for a, t in zip(list_of_animations, timeweight):
+                        self.add(a, t)
 
     def add(self, anim, timeweight=1):
         self.ListOfAnimations.append(deepcopy(anim))
