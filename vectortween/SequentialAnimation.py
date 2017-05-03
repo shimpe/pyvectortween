@@ -55,6 +55,8 @@ class SequentialAnimation(Animation):
             return self.ListOfAnimations[-1].make_frame(frame, birthframe, startframe, stopframe, deathframe)
 
         t = self.T.tween2(frame, startframe, stopframe)
+        if t is None:
+            return None
 
         for i, w in enumerate(self.CumulativeNormalizedTimeWeights):
             if t <= w:
