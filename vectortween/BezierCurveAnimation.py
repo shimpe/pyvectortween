@@ -12,11 +12,13 @@ class BezierCurveAnimation(Animation):
     animation of a 2d position (convenience class converting polar equation to two parametric equations)
     """
 
-    def __init__(self, controlpoints=None, tween=None, ytween=None):
+    def __init__(self, controlpoints=None, tween=None, ytween=None, noise_fn=None, y_noise_fn=None):
         """
         :param equation: polar equation in the form r = f(theta)
         :param tween: tween method for the x coordinate (defaults to linear if not specified)
         :param ytween: tween method for the y coordinate (defaults to same as that for x coordinate)
+        :param noise_fn: optional noise function mapping (x, t) -> value
+        :param y_noise_fn: optional noise function mapping (y, t) -> value
         """
         super().__init__(None, None)
         if controlpoints is None:
@@ -28,7 +30,8 @@ class BezierCurveAnimation(Animation):
 
         self.tween = tween
         self.ytween = ytween
-
+        self.noise_fn = noise_fn
+        self.y_noise_fn = y_noise_fn
         self.controlpoints = controlpoints
 
         order = len(controlpoints) - 1
@@ -39,8 +42,9 @@ class BezierCurveAnimation(Animation):
             y_terms.append("{0}*((1-t)**({1}-{2}))*(t**{2})*{3}".format(binom(order, i), order, i, c[1]))
         # print ("+".join(x_terms))
         # print ("+".join(y_terms))
-        self.anim = ParallelAnimation([ParametricAnimation(equation="{}".format("+".join(x_terms)), tween=tween),
-                                       ParametricAnimation(equation="{}".format("+".join(y_terms)), tween=ytween)])
+        self.anim = ParallelAnimation(
+            [ParametricAnimation(equation="{}".format("+".join(x_terms)), tween=tween, noise_fn=self.noise_fn),
+             ParametricAnimation(equation="{}".format("+".join(y_terms)), tween=ytween, noise_fn=self.y_noise_fn)])
         self.frm = self.anim.make_frame(0, 0, 0, 1, 1)
         self.to = self.anim.make_frame(1, 0, 0, 1, 1)
 

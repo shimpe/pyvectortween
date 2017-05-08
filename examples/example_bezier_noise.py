@@ -7,6 +7,7 @@ if __name__ == "__main__":
 
     import noise
 
+
     def random_color():
         import random
         return (random.uniform(0, 1) for _ in range(3))
@@ -20,11 +21,12 @@ if __name__ == "__main__":
         [(120, 160), (35, 200), (220, 240), (220, 40)],
         [(220, 40), (120, 40), (10, 200)]
     ]
-    b1 = BezierCurveAnimation(controlpoints=controlpoints_collections[0],tween=["easeOutBounce"])
-    b2 = BezierCurveAnimation(controlpoints=controlpoints_collections[1],tween=["easeOutBounce"])
-    b = SequentialAnimation([b1,b2])
+    b1 = BezierCurveAnimation(controlpoints=controlpoints_collections[0], tween=["easeOutBounce"])
+    b2 = BezierCurveAnimation(controlpoints=controlpoints_collections[1], tween=["easeOutBounce"])
+    b = SequentialAnimation([b1, b2])
 
-    colors = ((0,1,1),(1,1,0))
+    colors = ((0, 1, 1), (1, 1, 0))
+
 
     def make_frame(t):
         surface = gizeh.Surface(W, H)
@@ -36,12 +38,12 @@ if __name__ == "__main__":
         xnoise = []
         ynoise = []
         result = []
-        for i,c in enumerate(curve_points):
-            xnoise.append(2*noise.snoise3(c[0],c[1],0))
-            ynoise.append(2*noise.snoise3(c[0],c[1],1))
+        for i, c in enumerate(curve_points):
+            xnoise.append(2 * noise.snoise3(c[0], c[1], 0))
+            ynoise.append(2 * noise.snoise3(c[0], c[1], 1))
             result.append([(c[0] + xnoise[i]), (c[1] + ynoise[i])])
             if xy is not None and None not in xy:
-                gizeh.circle(5, xy=[xy[0]+xnoise[i],xy[1]+ynoise[i]], fill=(0, 1, 0)).draw(surface)
+                gizeh.circle(5, xy=[xy[0] + xnoise[i], xy[1] + ynoise[i]], fill=(0, 1, 0)).draw(surface)
         curve_points = result
         gizeh.polyline(curve_points, stroke=(0, 0, 1), stroke_width=2).draw(surface)
         for i, controlpoints in enumerate(controlpoints_collections):

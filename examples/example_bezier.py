@@ -19,11 +19,12 @@ if __name__ == "__main__":
         [(120, 160), (35, 200), (220, 240), (220, 40)],
         [(220, 40), (120, 40), (10, 200)]
     ]
-    b1 = BezierCurveAnimation(controlpoints=controlpoints_collections[0],tween=["easeOutBounce"])
-    b2 = BezierCurveAnimation(controlpoints=controlpoints_collections[1],tween=["easeOutBounce"])
-    b = SequentialAnimation([b1,b2])
+    b1 = BezierCurveAnimation(controlpoints=controlpoints_collections[0], tween=["easeOutBounce"])
+    b2 = BezierCurveAnimation(controlpoints=controlpoints_collections[1], tween=["easeOutBounce"])
+    b = SequentialAnimation([b1, b2])
 
-    colors = ((0,1,1),(1,1,0))
+    colors = ((0, 1, 1), (1, 1, 0))
+
 
     def make_frame(t):
         surface = gizeh.Surface(W, H)

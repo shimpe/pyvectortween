@@ -1,5 +1,5 @@
-from distutils.core import setup
 import sys
+from distutils.core import setup
 
 if sys.version_info[0] < 3:
     sys.exit("Sorry. Python 2 is currently not supported.")

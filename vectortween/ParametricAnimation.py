@@ -13,13 +13,21 @@ class ParametricAnimation(Animation):
     tweening optionally can be applied (default is None, which means linear animation)
     """
 
-    def __init__(self, equation="t", tween=None):
+    def __init__(self, equation="t", tween=None, noise_fn=None):
+        """
+        
+        :param equation: parametric equation written as a string, expressed in terms of parameter "t". 
+        :param tween: optional tweening specification
+        :param noise_fn: 2d function accepting a value ( equation(0) <= value <= equation(1)) and a time (0 <= t <= 1).
+         By accepting and using t, the noise is animated in time. By accepting but ignoring t, the noise is only spatial.
+        """
         if tween is None:
             tween = ['linear']
         if not equation:
             equation = "t"
         self.tween = tween
         self.T = Tween(*tween)
+        self.noise_fn = noise_fn
         self.equation = parse_expr(equation)
         t = Symbol('t')
         frm = self.equation.evalf(subs={t: 0})
@@ -29,29 +37,59 @@ class ParametricAnimation(Animation):
     def delayed_version(self, delay):
         t = Symbol("t")
         new_equation = self.equation.subs(t, t - delay)
-        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+        def new_noise_fn(value, t):
+            return self.noise_fn(value, t - delay)
+
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween,
+                                   noise_fn=new_noise_fn if self.noise_fn else None)
 
     def speedup_version(self, factor):
         t = Symbol("t")
         new_equation = self.equation.subs(t, t * factor)
-        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+        def new_noise_fn(value, t):
+            return self.noise_fn(value, t * factor)
+
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween,
+                                   noise_fn=new_noise_fn if self.noise_fn else None)
 
     def translated_version(self, amount):
         new_equation = self.equation + amount
-        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+        def new_noise_fn(value, t):
+            return self.noise_fn(value + amount, t)
+
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween,
+                                   noise_fn=new_noise_fn if self.noise_fn else None)
 
     def scaled_version(self, amount):
         new_equation = self.equation * amount
-        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+        def new_noise_fn(value, t):
+            return self.noise_fn(value * amount, t)
+
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween,
+                                   noise_fn=new_noise_fn if self.noise_fn else None)
 
     def scaled_translate_version(self, scale, offset):
         new_equation = self.equation * scale + offset
-        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+        def new_noise_fn(value, t):
+            return self.noise_fn(value * scale + offset, t)
+
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween,
+                                   noise_fn=new_noise_fn if self.noise_fn else None)
 
     def timereversed_version(self):
         t = Symbol("t")
         new_equation = self.equation.subs(t, 1 - t)
-        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween)
+
+        def new_noise_fn(value, t):
+            return self.noise_fn(value, 1 - t)
+
+        return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween,
+                                   noise_fn=new_noise_fn if self.noise_fn else None)
 
     @lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
@@ -81,4 +119,8 @@ class ParametricAnimation(Animation):
 
         parameter_value = self.T.tween2(frame, startframe, stopframe)
         t = Symbol('t')
-        return self.equation.evalf(subs={t: parameter_value})
+        if self.noise_fn is not None:
+            noise_value = self.noise_fn(frame, parameter_value)
+        else:
+            noise_value = 0
+        return self.equation.evalf(subs={t: parameter_value}) + noise_value

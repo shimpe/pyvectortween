@@ -11,11 +11,21 @@ class NumberAnimation(Animation):
     tweening optionally can be applied (default is None, which means linear animation)
     """
 
-    def __init__(self, frm, to, tween=None):
+    def __init__(self, frm, to, tween=None, noise_fn=None):
+        """
+        
+        :param frm: start value 
+        :param to: end value
+        :param tween: optional tweening function (default: linear)
+        :param noise_fn: optional noise function (default: None)
+          noise_fn needs to accept two parameters: a value (frm <= value <= to) and a time (0 <= time <= 1)
+          if the noise_fn uses parameter t the noise will be animated in time; by accepting but ignoring t,
+          the noise is only spatial
+        """
         super().__init__(frm, to)
         if tween is None:
             tween = ['linear']
-
+        self.noise_fn = noise_fn
         self.T = Tween(*tween)
 
     @lru_cache(maxsize=1000)
@@ -44,6 +54,11 @@ class NumberAnimation(Animation):
         if frame > stopframe:
             return self.to
 
-        newval = Mapping.linlin(self.T.tween2(frame, startframe, stopframe), 0, 1, self.frm, self.to)
+        t = self.T.tween2(frame, startframe, stopframe)
+        newval = Mapping.linlin(t, 0, 1, self.frm, self.to)
+        if self.noise_fn is not None:
+            noise_val = self.noise_fn(newval, t)
+        else:
+            noise_val = 0
 
-        return newval
+        return newval + noise_val
