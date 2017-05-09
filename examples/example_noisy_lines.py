@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     def make_frame(t):
         surface = gizeh.Surface(W, H)
-        xy = s.make_frame(t, 0, 0, duration, duration)
+        xy = s.make_frame(t, 0, 0, duration, duration, noiseframe=t)
         trail = s.curve_points(t - 1.5, t, 0.01, 0, 0, duration, duration, noiseframe=t)
         if trail and None not in trail:
             gizeh.polyline(trail, stroke=(t / duration, 1 - t / duration, t / duration), stroke_width=5,
