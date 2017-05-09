@@ -40,7 +40,7 @@ class SequentialAnimation(Animation):
         self.ListOfAnimationTimeWeight = np.append(self.ListOfAnimationTimeWeight, [timeweight])
         self.CumulativeNormalizedTimeWeights = np.cumsum(normalize(self.ListOfAnimationTimeWeight))
 
-    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
+    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         if birthframe is None:
             birthframe = startframe
         if deathframe is None:
@@ -50,9 +50,9 @@ class SequentialAnimation(Animation):
         if frame > deathframe:
             return None
         if frame < startframe:
-            return self.ListOfAnimations[0].make_frame(frame, birthframe, startframe, stopframe, deathframe)
+            return self.ListOfAnimations[0].make_frame(frame, birthframe, startframe, stopframe, deathframe, noiseframe)
         if frame > stopframe:
-            return self.ListOfAnimations[-1].make_frame(frame, birthframe, startframe, stopframe, deathframe)
+            return self.ListOfAnimations[-1].make_frame(frame, birthframe, startframe, stopframe, deathframe, noiseframe)
 
         t = self.T.tween2(frame, startframe, stopframe)
         if t is None:
@@ -67,4 +67,4 @@ class SequentialAnimation(Animation):
                 relativestopframe = self.CumulativeNormalizedTimeWeights[i]
                 absstartframe = Mapping.linlin(relativestartframe, 0, 1, startframe, stopframe)
                 absstopframe = Mapping.linlin(relativestopframe, 0, 1, startframe, stopframe)
-                return self.ListOfAnimations[i].make_frame(frame, birthframe, absstartframe, absstopframe, deathframe)
+                return self.ListOfAnimations[i].make_frame(frame, birthframe, absstartframe, absstopframe, deathframe, noiseframe)

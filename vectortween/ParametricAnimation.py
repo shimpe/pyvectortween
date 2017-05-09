@@ -92,7 +92,7 @@ class ParametricAnimation(Animation):
                                    noise_fn=new_noise_fn if self.noise_fn else None)
 
     @lru_cache(maxsize=1000)
-    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
+    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         """
         animation happens between startframe and stopframe
         the value is None before aliveframe, and after deathframe
@@ -120,7 +120,11 @@ class ParametricAnimation(Animation):
         parameter_value = self.T.tween2(frame, startframe, stopframe)
         t = Symbol('t')
         if self.noise_fn is not None:
-            noise_value = self.noise_fn(frame, parameter_value)
+            if noiseframe is not None:
+                nf = noiseframe
+            else:
+                nf = parameter_value
+            noise_value = self.noise_fn(frame, nf)
         else:
             noise_value = 0
         return self.equation.evalf(subs={t: parameter_value}) + noise_value

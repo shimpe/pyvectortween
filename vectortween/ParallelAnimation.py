@@ -16,7 +16,7 @@ class ParallelAnimation(Animation):
     def add(self, anim):
         self.ListOfAnimations.append(deepcopy(anim))
 
-    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
+    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         if birthframe is None:
             birthframe = startframe
         if deathframe is None:
@@ -26,10 +26,10 @@ class ParallelAnimation(Animation):
         if frame > deathframe:
             return None
         if frame < startframe:
-            return [a.make_frame(startframe, birthframe, startframe, stopframe, deathframe) for a in
+            return [a.make_frame(startframe, birthframe, startframe, stopframe, deathframe, noiseframe) for a in
                     self.ListOfAnimations]
         if frame > stopframe:
-            return [a.make_frame(stopframe, birthframe, startframe, stopframe, deathframe) for a in
+            return [a.make_frame(stopframe, birthframe, startframe, stopframe, deathframe, noiseframe) for a in
                     self.ListOfAnimations]
 
-        return [a.make_frame(frame, birthframe, startframe, stopframe, deathframe) for a in self.ListOfAnimations]
+        return [a.make_frame(frame, birthframe, startframe, stopframe, deathframe, noiseframe) for a in self.ListOfAnimations]

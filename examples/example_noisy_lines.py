@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
 
     def my_noise(x, t):
-        return 2 * noise.snoise2(x, t)
+        return 2 * noise.snoise2(x, 0)
 
 
     def my_noise2(x, t):
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     def make_frame(t):
         surface = gizeh.Surface(W, H)
         xy = s.make_frame(t, 0, 0, duration, duration)
-        trail = s.curve_points(t - 1.5, t, 0.01, 0, 0, duration, duration)
+        trail = s.curve_points(t - 1.5, t, 0.01, 0, 0, duration, duration, noiseframe=t)
         if trail and None not in trail:
             gizeh.polyline(trail, stroke=(t / duration, 1 - t / duration, t / duration), stroke_width=5,
                            fill=None).draw(surface)

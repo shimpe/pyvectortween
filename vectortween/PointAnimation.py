@@ -29,7 +29,7 @@ class PointAnimation(Animation):
         self.anim_y = NumberAnimation(self.frm[1], self.to[1], ytween, y_noise_fn)
 
     @lru_cache(maxsize=1000)
-    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
+    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         """
         :param frame: current frame 
         :param birthframe: frame where this animation starts returning something other than None
@@ -38,11 +38,14 @@ class PointAnimation(Animation):
         :param deathframe: frame where animation starts to return None
         :return: 
         """
-        newx = self.anim_x.make_frame(frame, birthframe, startframe, stopframe, deathframe)
-        newy = self.anim_y.make_frame(frame, birthframe, startframe, stopframe, deathframe)
+        newx = self.anim_x.make_frame(frame, birthframe, startframe, stopframe, deathframe, noiseframe)
+        newy = self.anim_y.make_frame(frame, birthframe, startframe, stopframe, deathframe, noiseframe)
 
         if self.xy_noise_fn is not None:
-            t = Tween.tween2(frame, startframe, stopframe)
+            if noiseframe is not None:
+                t = noiseframe
+            else:
+                t = Tween.tween2(frame, startframe, stopframe)
             addx, addy = self.xy_noise_fn(newx, newy, t)
         else:
             addx, addy = 0, 0

@@ -29,7 +29,7 @@ class NumberAnimation(Animation):
         self.T = Tween(*tween)
 
     @lru_cache(maxsize=1000)
-    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
+    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         """
         animation happens between startframe and stopframe
         the value is None before aliveframe, and after deathframe
@@ -57,7 +57,11 @@ class NumberAnimation(Animation):
         t = self.T.tween2(frame, startframe, stopframe)
         newval = Mapping.linlin(t, 0, 1, self.frm, self.to)
         if self.noise_fn is not None:
-            noise_val = self.noise_fn(newval, t)
+            if noiseframe is not None:
+                nf = noiseframe
+            else:
+                nf = t
+            noise_val = self.noise_fn(newval, nf)
         else:
             noise_val = 0
 

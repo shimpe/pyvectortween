@@ -9,5 +9,5 @@ class PauseAnimation(Animation):
     def __init__(self, frm):
         super().__init__(frm, frm)
 
-    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe):
+    def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         return self.frm
