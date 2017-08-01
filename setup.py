@@ -8,10 +8,10 @@ setup(
     name='vectortween',
     version='0.0.1',
     packages=['vectortween'],
-    url='',
+    url='https://github.com/shimpe/pyvectortween',
     license='MIT',
     author='stefaan himpe',
     author_email='stefaan.himpe@gmail.com',
     description='vector animation library with tweening',
-    requires=['pytweening', 'sympy', 'numpy', 'scipy']
+    install_requires=['pytweening', 'sympy', 'numpy', 'scipy']
 )
