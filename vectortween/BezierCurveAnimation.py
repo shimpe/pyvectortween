@@ -48,7 +48,7 @@ class BezierCurveAnimation(Animation):
         self.frm = self.anim.make_frame(0, 0, 0, 1, 1)
         self.to = self.anim.make_frame(1, 0, 0, 1, 1)
 
-    @lru_cache(maxsize=1000)
+    #@lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         """
         :param frame: current frame 

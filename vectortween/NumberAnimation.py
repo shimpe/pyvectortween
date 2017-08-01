@@ -28,7 +28,7 @@ class NumberAnimation(Animation):
         self.noise_fn = noise_fn
         self.T = Tween(*tween)
 
-    @lru_cache(maxsize=1000)
+    #@lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         """
         animation happens between startframe and stopframe

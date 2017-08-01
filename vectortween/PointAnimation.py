@@ -28,7 +28,7 @@ class PointAnimation(Animation):
         self.anim_x = NumberAnimation(self.frm[0], self.to[0], tween, noise_fn)
         self.anim_y = NumberAnimation(self.frm[1], self.to[1], ytween, y_noise_fn)
 
-    @lru_cache(maxsize=1000)
+    #@lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         """
         :param frame: current frame 

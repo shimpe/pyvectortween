@@ -91,7 +91,7 @@ class ParametricAnimation(Animation):
         return ParametricAnimation(equation="{}".format(new_equation), tween=self.tween,
                                    noise_fn=new_noise_fn if self.noise_fn else None)
 
-    @lru_cache(maxsize=1000)
+    #@lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         """
         animation happens between startframe and stopframe

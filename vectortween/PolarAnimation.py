@@ -147,7 +147,7 @@ class PolarAnimation(Animation):
                               noise_fn=new_noise_fn if self.noise_fn else None,
                               y_noise_fn=new_y_noise_fn if self.y_noise_fn else None)
 
-    @lru_cache(maxsize=1000)
+    #@lru_cache(maxsize=1000)
     def make_frame(self, frame, birthframe, startframe, stopframe, deathframe, noiseframe=None):
         """
         :param frame: current frame 
