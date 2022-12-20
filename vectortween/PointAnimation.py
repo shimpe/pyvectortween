@@ -49,4 +49,6 @@ class PointAnimation(Animation):
             addx, addy = self.xy_noise_fn(newx, newy, t)
         else:
             addx, addy = 0, 0
-        return newx + addx, newy + addy
+        final_x = newx + addx if (newx is not None and addx is not None) else None
+        final_y = newy + addy if (newy is not None and addy is not None) else None
+        return final_x, final_y
