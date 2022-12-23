@@ -3,7 +3,7 @@ from setuptools import find_packages
 
 setup(
     name='vectortween',
-    version='0.0.3',
+    version='0.0.4',
     packages=find_packages(exclude=['build', 'dist', 'docs', 'tests']),
     python_requires='>=3',
     url='https://github.com/shimpe/pyvectortween',
